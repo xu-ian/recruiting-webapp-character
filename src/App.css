@@ -46,3 +46,13 @@
     transform: rotate(360deg);
   }
 }
+
+.unmet
+{
+  color: red;
+}
+
+.met
+{
+  color: green;
+}

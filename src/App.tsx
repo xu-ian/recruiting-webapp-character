@@ -1,19 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import AttributeList from "./Components/AttributeList";
+import { getCharacter, sendData } from './Components/Api';
 import ClassList from './Components/ClassList';
 import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST } from './consts.js';
 import SkillList from './Components/SkillList';
 
 
 function App() {
-  const [num, setNum] = useState<number>(0);
-  const [attributes, setAttributes] = useState({Strength: 0,
-    Dexterity: 0,
-    Constitution: 0,
-    Intelligence: 0,
-    Wisdom: 0,
-    Charisma: 0})
+  const [attributes, setAttributes] = useState({Strength: 10,
+    Dexterity: 10,
+    Constitution: 10,
+    Intelligence: 10,
+    Wisdom: 10,
+    Charisma: 10})
   const [skills, setSkills] = useState({
     Acrobatics:0,
     "Animal Handling":0,
@@ -33,6 +33,25 @@ function App() {
     "Sleight of Hand":0,
     Stealth:0,
     Survival:0
+  });
+
+  //Loads data from server
+  useEffect(() => {
+    getCharacter(out => {
+      console.log(out);
+      if(out.body && out.statusCode && out.statusCode == 200)
+      {
+        if(out.body.attributes && out.body.skills)
+        {
+          setAttributes(out.body.attributes);
+          setSkills(out.body.skills);
+        }
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    sendData({attributes:attributes, skills:skills})
   });
   return (
     <div className="App">

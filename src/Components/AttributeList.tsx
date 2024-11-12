@@ -1,36 +1,48 @@
 import { ATTRIBUTE_LIST } from '../consts';
-import {useState } from 'react';
+
 function AttributeList({attributes, setAttributes})
 {
-  const [str, setStr] = useState(0);
-  const [dex, setDex] = useState(0);
-  const [con, setCon] = useState(0);
-  const [int, setInt] = useState(0);
-  const [wis, setWis] = useState(0);
-  const [cha, setCha] = useState(0);
 
+  function attributeSum()
+  {
+    let sum = 0;
+    for(let i = 0; i < ATTRIBUTE_LIST.length; i++)
+    {
+      sum += attributes[ATTRIBUTE_LIST[i]];
+    }
+    return sum
+  }
+
+  //Increases selected attribute
   function increaseAttribute(attribute)
   {
-    if(attributes[attribute] < 20)
+    if(attributes[attribute] < 20 && attributeSum() < 70)
     {
-      attributes[attribute] += 1;
-      setAttributes(attributes);
+      setAttributes({
+        Strength: attributes["Strength"] + ((attribute == 'Strength') ? 1 : 0),
+        Dexterity: attributes["Dexterity"] + ((attribute == 'Dexterity') ? 1 : 0),
+        Constitution: attributes["Constitution"] + ((attribute == 'Constitution') ? 1 : 0),
+        Intelligence: attributes["Intelligence"] + ((attribute == 'Intelligence') ? 1 : 0),
+        Wisdom: attributes["Wisdom"] + ((attribute == 'Wisdom') ? 1 : 0),
+        Charisma: attributes["Charisma"] + ((attribute == 'Charisma') ? 1 : 0),
+      });
     }
   }
 
+  //Decreases selected attribute
   function decreaseAttribute(attribute)
   {
     if(attributes[attribute] > 0)
     {
-      attributes[attribute] -= 1;
-      setAttributes(attributes);
-      
+      setAttributes({
+        Strength: attributes["Strength"] - ((attribute == 'Strength') ? 1 : 0),
+        Dexterity: attributes["Dexterity"] - ((attribute == 'Dexterity') ? 1 : 0),
+        Constitution: attributes["Constitution"] - ((attribute == 'Constitution') ? 1 : 0),
+        Intelligence: attributes["Intelligence"] - ((attribute == 'Intelligence') ? 1 : 0),
+        Wisdom: attributes["Wisdom"] - ((attribute == 'Wisdom') ? 1 : 0),
+        Charisma: attributes["Charisma"] - ((attribute == 'Charisma') ? 1 : 0),
+      });
     }
-  }
-
-  function printAttributes()
-  {
-    console.log(attributes);
   }
 
   return (
